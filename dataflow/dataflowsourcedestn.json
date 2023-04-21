@@ -1,0 +1,75 @@
+{
+	"name": "dataflowsourcedestn",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "dataflow_source",
+						"type": "DatasetReference"
+					},
+					"name": "sourceds"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "dest_dataset1",
+						"type": "DatasetReference"
+					},
+					"name": "sinkgreater"
+				},
+				{
+					"dataset": {
+						"referenceName": "ds_lesser",
+						"type": "DatasetReference"
+					},
+					"name": "sinklesser"
+				}
+			],
+			"transformations": [
+				{
+					"name": "select1"
+				},
+				{
+					"name": "filter1"
+				},
+				{
+					"name": "split1"
+				}
+			],
+			"scriptLines": [
+				"source(output(",
+				"          country as string,",
+				"          country_code_2_digit as string,",
+				"          country_code_3_digit as string,",
+				"          continent as string,",
+				"          population as integer",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false) ~> sourceds",
+				"sourceds select(mapColumn(",
+				"          country,",
+				"          country_code_2_digit,",
+				"          continent,",
+				"          population",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> select1",
+				"select1 filter(equals(continent,'America')) ~> filter1",
+				"filter1 split(population>10000,",
+				"     disjoint: false) ~> split1@(greaterpopulation, lesserpopulation)",
+				"split1@greaterpopulation sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> sinkgreater",
+				"split1@lesserpopulation sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> sinklesser"
+			]
+		}
+	}
+}
