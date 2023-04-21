@@ -1,0 +1,27 @@
+{
+	"$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"value": "datafactory202317"
+		},
+		"AzureBlobStorage1_connectionString": {
+			"value": ""
+		},
+		"AzureBlobStorage2_connectionString": {
+			"value": ""
+		},
+		"AzureDataLakeStorage1_accountKey": {
+			"value": ""
+		},
+		"SqlServer1_connectionString": {
+			"value": ""
+		},
+		"AzureDataLakeStorage1_properties_typeProperties_url": {
+			"value": "https://trainingazure202317.dfs.core.windows.net/"
+		},
+		"storage_properties_typeProperties_scope": {
+			"value": "/subscriptions/01b48998-2323-4993-8ec5-bd59ba7e694b/resourceGroups/trainingazure/providers/Microsoft.Storage/storageAccounts/trainingazure202317"
+		}
+	}
+}
